@@ -1,7 +1,18 @@
-int pot = 0;
-int left = 10;
-int right = 11;
+/*
+DO NOT TURN LEFT AND RIGHT ON AT THE SAME TIME OR YOU WILL BURN ALL
+THE TRANSISTORS.
+
+With this code from half the pot values you control the right power
+and the other right the left power with a middle range to keep the
+systems off.
+*/
+
+int pot = 0; // Potentiometer port
+int left = 10; // Left signal output
+int right = 11; // Right signal output
 int led = 2;
+
+// Serial debug flag
 boolean debug = false;
 
 const int ledCount = 4;    // the number of LEDs in the bar graph
@@ -38,27 +49,32 @@ void barPrint(int level) {
 
 void loop() {
   int potVal = analogRead(pot);
-  int outputValue = map(potVal, 0, 1023, 0, 60);
   int ledLevel = 0;
+
+  // Easy to work resolution
+  int outputValue = map(potVal, 0, 1023, 0, 60);
   
+  // Going left
   if ( outputValue < 25 ) {
     outputValue = (outputValue -25) * -1;
     digitalWrite(led, HIGH);
     analogWrite(right, 0);
-    delay(30); // Safety. DO NOT REMOVE
+    delay(30); // Transistor safety. DO NOT REMOVE
     ledLevel = map(outputValue, 0, 25, 0, ledCount);
     barPrint(ledLevel);
     analogWrite(left, outputValue*10);
   }
+  // Going right
   else if ( outputValue > 35 ) {
     digitalWrite(led, HIGH);
     outputValue = outputValue - 35;
     analogWrite(left, 0);
-    delay(30); // Safety. DO NOT REMOVE
+    delay(30); // Transistor safety. DO NOT REMOVE
     ledLevel = map(outputValue, 0, 24, 0, ledCount);
     barPrint(ledLevel);
     analogWrite(right, outputValue*10);
   }
+  // Stopped
   else {
     digitalWrite(led, LOW);
     analogWrite(left, 0);

@@ -1,6 +1,6 @@
 int leds[] = {3,5,6,9,10};
 int resolution = 5; // size of the leds array
-int potentiometer = 0; // pot pin
+int potentiometer = 0; // Pot that control the speed of the counter
 int potValue=250;
 
 int on = 1;
@@ -11,6 +11,7 @@ int sensorValue;
 int lastSensorValue = 0;
 boolean visible = true;
 
+// My clever function to write binary to port range
 void printBinary(int number) {
   int mask;
   int power;
@@ -18,12 +19,12 @@ void printBinary(int number) {
   for( int i = 0; i < resolution; i++) {
     mask = B1 << i;
     if(true && (mask & number)) {
-      power = 255;
+      power = HIGH;
     }
     else {
-      power = 0;
+      power = LOW;
     }
-    analogWrite(leds[i], power);
+    digitalWrite(leds[i], power);
   }
   
 }
@@ -32,12 +33,15 @@ void setup()  {
   for(int i = 0; i < resolution; i++) {
       pinMode(leds[i], OUTPUT);
   }
-  pinMode(13, OUTPUT);
+  pinMode(13, OUTPUT); // State the visibility of the display
   digitalWrite(13, HIGH);
+  
+  // Display on/off button
   pinMode(2, INPUT);
 }
 
 void loop() {
+  // Funky boot animation :)
   if(animate) {
     printBinary(on);
     
