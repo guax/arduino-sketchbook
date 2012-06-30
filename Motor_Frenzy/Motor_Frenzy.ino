@@ -2,9 +2,8 @@
 DO NOT TURN LEFT AND RIGHT ON AT THE SAME TIME OR YOU WILL BURN ALL
 THE TRANSISTORS.
 
-With this code from half the pot values you control the right power
-and the other right the left power with a middle range to keep the
-systems off.
+With this code from half the pot values you control the right direction power
+and the other half the left direction power of a motor.
 */
 
 int pot = 0; // Potentiometer port
