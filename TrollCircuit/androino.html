@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Androino</title>
+
+<style>
+body {
+    background: #32323D;
+}
+div#content {
+    padding-top:100px;
+    width:150px;
+    margin:auto;
+}
+div#output {
+    text-align: center;
+    color: white;
+    font-family: verdana, sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+}
+button {
+    background-color: transparent;
+    border: none;
+}
+
+button img {
+    width: 150px;
+    text-align: center;
+}
+</style>
+
+<script>
+var droid = new Android();
+var toggle_troll = function() {
+    // fire the event that the python script is waiting for.
+    droid.eventPost('toggle_troll', '');
+}
+// this function gets called from the python script when it receives new sensor data.
+droid.registerCallback('display_data', function(data) {
+    document.getElementById('output').innerHTML = data.data == "1" ? "U MAD?" : "";
+});
+</script>
+
+</head>
+
+<body>
+<div id="content">
+    <button onclick="toggle_troll();"><img src="troll.png" alt="Trolololo"></button>
+    <div id="output"></div>
+</div>
+</body>
+</html>

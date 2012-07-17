@@ -22,6 +22,7 @@ void setup() {
   pinMode(toggle_btn, INPUT);
   pinMode(13, OUTPUT); // Buit In LED to point up or down
   myservo.write(down_position);
+  Serial.begin(9600);
 }
 
 void toggle() {
@@ -46,8 +47,16 @@ void tuneDown() {
 }
 
 int last_toggle_btn_state = LOW;
+
+int serial_value;
  
 void loop() {
+  if (Serial.available()) {
+      serial_value = (int) Serial.read();
+      toggle();
+      Serial.println(up);
+  }
+  
   int toggle_btn_state = digitalRead(toggle_btn);
   
   // State changed
